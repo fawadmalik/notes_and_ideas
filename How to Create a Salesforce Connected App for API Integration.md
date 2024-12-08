@@ -87,13 +87,14 @@ Test the app by performing an OAuth flow using tools like **Postman**, **cURL**,
      ```
 
 2. Add the following body parameters:
+   The body must be a x-www-form-urlencoded containing the following parameters:
    - `grant_type`: `password`
    - `client_id`: The **Consumer Key** from Step 7.
    - `client_secret`: The **Consumer Secret** from Step 7.
    - `username`: Your Salesforce username.
    - `password`: Your Salesforce password + security token.
 
-3. Test the request. If successful, you will receive a JSON response containing the `access_token` and other details.
+4. Test the request. If successful, you will receive a JSON response containing the `access_token` and other details.
 
 ---
 
