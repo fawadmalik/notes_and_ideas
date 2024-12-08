@@ -44,8 +44,6 @@ To interact with Salesforce programmatically, you need access to an instance. A 
    - Once logged in, you’ll have access to the Salesforce interface, including Leads, Accounts, and Contacts.
    - This environment comes pre-configured with a small set of sample data, which you can expand or modify.
 
-![Salesforce Dashboard](https://via.placeholder.com/800x400?text=Salesforce+Dashboard+Example)
-
 ---
 
 ## **Step 2: Create a Connected App**
