@@ -59,13 +59,15 @@ A **Connected App** enables external applications to securely connect to Salesfo
 2. **Create a New Connected App**:
    - Click **New Connected App**.
    - Fill out the following:
-     - **Connected App Name**: `NodeTestApp`.
+     - **Connected App Name**: `DataConnectApp`.
      - **API Name**: Auto-populates.
-     - **Contact Email**: Provide your email.
+     - **Contact Email**: Provide your email. This is where you will receive your security token
 
 3. **Enable OAuth Settings**:
    - Check **Enable OAuth Settings**.
-   - Set the **Callback URL** to `http://localhost:3000` (or your app’s domain).
+   - Set the **Callback URL** to `http://localhost:3000` (or your app’s domain; recommended)
+   - --If the url, after you log into salesforce.com, is https://my-sompany-name.develop.lightning.force.com/whatever
+   - -- then you callback url is one with subdomain: https://my-sompany-name
    - Add these **OAuth Scopes**:
      - `Full Access (full)`.
      - `API (api)`.
@@ -73,7 +75,8 @@ A **Connected App** enables external applications to securely connect to Salesfo
 4. **Save and Wait**:
    - Save your app. It may take a few minutes to activate.
    - Note down the **Consumer Key** and **Consumer Secret** for use in the next steps.
-
+   - -- Under the option: API (Enable OAuth Settings) >> Consumer Key and Secret, click the button [Manage Consumer Details]
+	
 ---
 
 ## **Step 3: Write Authentication Code**
@@ -88,9 +91,10 @@ First, create a configuration file to store your credentials:
   "client_id": "your_consumer_key",
   "client_secret": "your_consumer_secret",
   "username": "your_salesforce_username",
-  "password": "your_salesforce_password_and_security_token"
+  "password": "your_salesforce_password + security_token"
 }
 ```
+### Getting the Security Token. Under Setup find "Reset My Security Token" and click the button [Reset Security Token]. New toke will be emailed to you in the email under Personal Information section
 
 ### **Authentication Script: `dataconnect.js`**
 ```javascript
