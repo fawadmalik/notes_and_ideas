@@ -107,6 +107,8 @@ A **Connected App** enables external applications to securely connect to Salesfo
 
 The Salesforce OAuth2 **Username-Password Flow** is ideal for programmatic interactions where user intervention is not required. We’ll write a script to authenticate with Salesforce and retrieve an access token.
 
+To make `dataconnect.js` more flexible and user-friendly, we can introduce a configuration file. This file will hold placeholders for the OAuth credentials, making it easy for users to update their details without modifying the code.
+
 ### **Configuration File: `config.json`**
 First, create a configuration file to store your credentials:
 ```json
@@ -119,6 +121,13 @@ First, create a configuration file to store your credentials:
 }
 ```
 ### Getting the Security Token. Under Setup find "Reset My Security Token" and click the button [Reset Security Token]. New toke will be emailed to you in the email under Personal Information section
+
+### **Benefits**
+- **User-Friendly**: Simplifies the process of updating credentials.
+- **Reusable**: Configuration file can be reused across projects.
+- **Error-Proof**: Validates input and provides clear feedback for missing fields.
+
+With this enhancement, `dataconnect.js` becomes a robust and user-friendly utility for authenticating with Salesforce!
 
 ### **Authentication Script: `dataconnect.js`**
 ```javascript
@@ -332,6 +341,14 @@ const saveLeadToFile = (leadDetails) => {
 
 2. **File Output**:
    - A JSON file named `lead-YYYY-MM-DDTHH-MM-SS.json` containing the lead’s details.
+
+
+### **Summary**
+
+This implementation ensures:
+1. **Dynamic Input**: Lead creation data is sourced from a JSON model, making it easy to update.
+2. **Comprehensive Workflow**: Includes lead creation, retrieval, and saving details for audit or testing purposes.
+3. **User-Friendly**: Provides clear error messages and guidance if files are missing or misconfigured.
 
 ---
 
