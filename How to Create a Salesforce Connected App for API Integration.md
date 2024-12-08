@@ -115,3 +115,140 @@ Test the app by performing an OAuth flow using tools like **Postman**, **cURL**,
 
 ### **Final Output**
 After completing these steps, your Salesforce Connected App is ready for use. You can now integrate with Salesforce APIs using the **Consumer Key**, **Consumer Secret**, and **Access Token**.
+
+---
+
+### **Troubleshooting**
+Most people report the "unsupported_grant_type" error after running this sestup
+{"error": "unsupported_grant_type", "error_description": "grant type not supported"}
+The error **"unsupported_grant_type"** means that Salesforce does not recognize the `grant_type` specified in your POST request. This usually happens when:
+
+1. The `grant_type` parameter is incorrect.
+2. The `Content-Type` header or request payload format is incorrect.
+
+Here’s how to troubleshoot and resolve the issue:
+
+---
+
+### **Step-by-Step Solution**
+
+#### **1. Verify the Correct `grant_type`**
+The value for the `grant_type` must match the OAuth 2.0 flow you are using. Common values include:
+- `password`: For the **Username-Password Flow**.
+- `authorization_code`: For the **Authorization Code Flow**.
+- `refresh_token`: For obtaining new tokens using a refresh token.
+
+For the **Username-Password Flow**, the `grant_type` must be:
+```plaintext
+grant_type=password
+```
+
+---
+
+#### **2. Ensure Proper Request Formatting**
+
+##### **Headers:**
+Include these headers in your POST request:
+- `Content-Type`: `application/x-www-form-urlencoded`
+
+##### **Body:**
+The body must be a **URL-encoded string** containing the following parameters:
+
+| Parameter         | Description                                                                                  |
+|--------------------|----------------------------------------------------------------------------------------------|
+| `grant_type`       | Set to `password`.                                                                          |
+| `client_id`        | The **Consumer Key** from your Salesforce Connected App.                                    |
+| `client_secret`    | The **Consumer Secret** from your Salesforce Connected App.                                 |
+| `username`         | Your Salesforce username.                                                                   |
+| `password`         | Your Salesforce password concatenated with your **security token**.                         |
+
+**Example Body:**
+```plaintext
+grant_type=password
+client_id=YOUR_CLIENT_ID
+client_secret=YOUR_CLIENT_SECRET
+username=YOUR_USERNAME
+password=YOUR_PASSWORD_SECURITY_TOKEN
+```
+
+---
+
+#### **3. Correctly Configure Postman**
+
+1. **Set the Endpoint URL**
+   - Use the appropriate Salesforce OAuth token URL:
+     - For production: `https://login.salesforce.com/services/oauth2/token`
+     - For sandbox: `https://test.salesforce.com/services/oauth2/token`
+
+2. **Set Request Method**
+   - Use the **POST** method.
+
+3. **Add Headers**
+   - Key: `Content-Type`
+   - Value: `application/x-www-form-urlencoded`
+
+4. **Set Request Body**
+   - In Postman, go to the **Body** tab.
+   - Select the **x-www-form-urlencoded** option.
+   - Enter the following key-value pairs:
+     - `grant_type`: `password`
+     - `client_id`: Your connected app's Consumer Key.
+     - `client_secret`: Your connected app's Consumer Secret.
+     - `username`: Your Salesforce username.
+     - `password`: Your Salesforce password concatenated with the security token.
+
+---
+
+#### **4. Example Postman Setup**
+
+| Field          | Value                                                                                       |
+|-----------------|---------------------------------------------------------------------------------------------|
+| **URL**        | `https://login.salesforce.com/services/oauth2/token`                                        |
+| **Method**     | POST                                                                                        |
+| **Headers**    | `Content-Type: application/x-www-form-urlencoded`                                           |
+| **Body Type**  | x-www-form-urlencoded                                                                       |
+| **Body Fields**| - `grant_type`: `password` <br> - `client_id`: `<your_client_id>` <br> - `client_secret`: `<your_client_secret>` <br> - `username`: `<your_username>` <br> - `password`: `<your_password_with_security_token>` |
+
+---
+
+#### **5. Troubleshoot Common Issues**
+
+- **Incorrect `grant_type`:**
+  - Ensure you are using the correct value based on your OAuth flow (`password` for this scenario).
+
+- **Missing or Incorrect Security Token:**
+  - Salesforce appends the **security token** to your password unless your IP is whitelisted.
+
+- **Incorrect Connected App Configuration:**
+  - Ensure the "Username-Password Flow" is enabled in the connected app's OAuth settings.
+
+---
+
+#### **6. Test the Request**
+
+Once everything is correctly configured, the response should contain an access token:
+
+**Example Successful Response:**
+```json
+{
+  "access_token": "00Dxx0000001gP3!AQEAQC...",
+  "instance_url": "https://yourInstance.salesforce.com",
+  "id": "https://login.salesforce.com/id/00Dxx0000001gP3EAI/005xx000001SvXQAA0",
+  "token_type": "Bearer",
+  "issued_at": "1609461865000",
+  "signature": "signature_value"
+}
+```
+
+---
+
+#### **7. Update Grant Type if Using Authorization Code Flow**
+
+If you intended to use the **Authorization Code Flow** instead:
+1. Set `grant_type` to `authorization_code`.
+2. Include an `authorization_code` parameter in your request body.
+3. Obtain the authorization code by redirecting the user to the Salesforce authorization URL.
+
+---
+
+This guide should resolve the **unsupported_grant_type** error and ensure your Postman request is configured correctly for the Username-Password OAuth Flow.
